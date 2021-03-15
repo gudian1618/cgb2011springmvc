@@ -11,6 +11,6 @@
     <title>springmvc页面练习</title>
 </head>
 <body>
-
+<h1>springmvc...hello</h1>
 </body>
 </html>
