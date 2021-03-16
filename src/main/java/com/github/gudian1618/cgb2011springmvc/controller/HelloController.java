@@ -1,8 +1,15 @@
 package com.github.gudian1618.cgb2011springmvc.controller;
 
 import com.github.gudian1618.cgb2011springmvc.pojo.User;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author gudian1618
@@ -56,5 +63,25 @@ public class HelloController {
         return "home";
     }
 
+    /**
+     * 3.日期类型参数绑定
+     * 通过springmvc获取请求中参数的值,/testParam3?date=2028-8-8%8:8:8&like=篮球&like=足球
+     * 方法一:将浏览器提交日期修改为能够识别的/分割年月日
+     * 方法二:将springmvc的底层修改为
+     */
+    @RequestMapping("/testParam3")
+    public String testParam3(Date date, String[] like) {
+        System.out.println(date);
+        System.out.println("like="+ Arrays.toString(like));
+        return "home";
+    }
+
+    /* 自定义日期格式转换器: 将springmvc框架底层默认的以斜杠分隔日期, 改为以横杠分隔! */
+    @InitBinder
+    public void InitBinder (ServletRequestDataBinder binder){
+        binder.registerCustomEditor(java.util.Date.class,
+            new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true)
+        );
+    }
 
 }
