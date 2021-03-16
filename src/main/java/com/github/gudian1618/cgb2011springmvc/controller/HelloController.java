@@ -76,6 +76,36 @@ public class HelloController {
         return "home";
     }
 
+    /**
+     * 4.测试springmvc的请求转发
+     * (1).从controller方法转发到一个页面
+     * (2).从controller方法转发到另一个方法中
+     */
+    @RequestMapping("/testForward")
+    public String testForward() {
+        System.out.println("HelloController.testForward()...");
+        // 跳转到转发方法
+        return "forward:/test";
+    }
+
+    @RequestMapping("/test")
+    public String test() {
+        System.out.println("HelloController.test()...");
+        return "home";
+    }
+
+    /**
+     * 5.测试springmvc实现请求重定向
+     * (1).从controller中的一个方法重定向到另外一个方法 return "redirect:/方法上的请求路径"
+     * (2).从controller中的一个方法重定向到本软件之外的页面链接
+     */
+    @RequestMapping("/testRedirect")
+    public String testRedirect() {
+        System.out.println("HelloController.testRedirect()...");
+        // return "redirect:/test";
+        return "redirect:https://www.baidu.com";
+    }
+
     /* 自定义日期格式转换器: 将springmvc框架底层默认的以斜杠分隔日期, 改为以横杠分隔! */
     @InitBinder
     public void InitBinder (ServletRequestDataBinder binder){
