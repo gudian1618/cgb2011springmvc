@@ -1,6 +1,7 @@
 package com.github.gudian1618.cgb2011springmvc.pojo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author gudian1618
@@ -32,6 +33,19 @@ public class User implements Serializable {
             ", age=" + age +
             ", addr='" + addr + '\'' +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name) && Objects.equals(age, user.age) && Objects.equals(addr, user.addr);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, addr);
     }
 
     public String getName() {

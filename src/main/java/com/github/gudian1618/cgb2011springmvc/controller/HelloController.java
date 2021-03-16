@@ -3,13 +3,16 @@ package com.github.gudian1618.cgb2011springmvc.controller;
 import com.github.gudian1618.cgb2011springmvc.pojo.User;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author gudian1618
@@ -72,7 +75,7 @@ public class HelloController {
     @RequestMapping("/testParam3")
     public String testParam3(Date date, String[] like) {
         System.out.println(date);
-        System.out.println("like="+ Arrays.toString(like));
+        System.out.println("like=" + Arrays.toString(like));
         return "home";
     }
 
@@ -106,9 +109,46 @@ public class HelloController {
         return "redirect:https://www.baidu.com";
     }
 
+    /**
+     * 6.测试springmvc的参数乱码问题
+     * tomcat8以上,get提交无乱码问题
+     * Post提交新版本无乱码问题,旧版本有中文乱码问题
+     */
+    @RequestMapping("/testParam")
+    public String testParam(String user, String[] like) {
+        System.out.println("user=" + user);
+        System.out.println("like=" + Arrays.toString(like));
+        return "home";
+    }
+
+    /**
+     * 7.测试springmvc响应数据,单个pojo对象
+     */
+    @RequestMapping("/testModel1")
+    public String testModel1(Model model) {
+        // 声明一个User对象,并将User对象保存到Model(底层就是request)
+        User user = new User("张飞", 22, "北京");
+        model.addAttribute("u1", user);
+        return "test";
+    }
+
+    /**
+     * 8.测试springmvc响应数据,数组pojo对象
+     */
+    @RequestMapping("/testModel2")
+    public String testModel2(Model model) {
+        // 声明一个User对象,并将User对象保存到Model(底层就是request)
+        List<User> list = new ArrayList<>();
+        list.add(new User("张飞", 22, "北京"));
+        list.add(new User("赵云", 32, "上海"));
+        list.add(new User("关于", 42, "广州"));
+        model.addAttribute("uList", list);
+        return "test";
+    }
+
     /* 自定义日期格式转换器: 将springmvc框架底层默认的以斜杠分隔日期, 改为以横杠分隔! */
     @InitBinder
-    public void InitBinder (ServletRequestDataBinder binder){
+    public void InitBinder(ServletRequestDataBinder binder) {
         binder.registerCustomEditor(java.util.Date.class,
             new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true)
         );

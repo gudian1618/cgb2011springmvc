@@ -12,5 +12,17 @@
 </head>
 <body>
 <h1>springmvc...test.jsp</h1>
+    ${u1.getName()}
+    ${u1.getAge()}
+    ${u1.getAddr()}
+<hr/>
+    ${u1.name}
+    ${u1.age}
+    ${u1.addr}
+<hr/>
+    ${uList[0]}
+    ${uList[1]}
+    ${uList[2]}
+<hr/>
 </body>
 </html>
